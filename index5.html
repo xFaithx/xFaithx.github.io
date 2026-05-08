@@ -1,94 +1,109 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lavender: Chronos Trinity V2</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Lavender: Chronos Trinity Mobile</title>
     <style>
         :root { --bg: #e0e0f0; --lila-soft: #dcd6f7; --lila-dark: #6c5ce7; --shadow-light: #ffffff; --shadow-dark: #b8b8d1; --text: #444466; }
         body.dark-mode { --bg: #1e1e2f; --lila-soft: #3d3d5c; --lila-dark: #a696c8; --shadow-light: #2a2a40; --shadow-dark: #0f0f1a; --text: #c0c0d0; }
-        body { margin:0; background:#cfcfe2; font-family:system-ui, -apple-system, sans-serif; color:var(--text); display:flex; justify-content:center; align-items:center; min-height:100vh; transition:0.4s; overflow:hidden; }
-        .app { width:360px; background:var(--bg); border-radius:50px; padding:25px; box-sizing:border-box; display:flex; flex-direction:column; gap:15px; box-shadow:15px 15px 30px var(--shadow-dark), -12px -12px 30px var(--shadow-light); }
-        .neu-inset { background:var(--bg); border-radius:20px; box-shadow:inset 6px 6px 12px var(--shadow-dark), inset -6px -6px 12px var(--shadow-light); }
-        .neu-flat { background:var(--bg); border-radius:20px; border:none; box-shadow:6px 6px 12px var(--shadow-dark), -6px -6px 12px var(--shadow-light); cursor:pointer; transition:0.2s; color:var(--text); outline:none; }
-        .neu-flat:active { box-shadow:inset 4px 4px 8px var(--shadow-dark), inset -4px -4px 8px var(--shadow-light); }
-        .header { display:flex; justify-content:space-between; align-items:center; }
-        .header h1 { margin:0; font-size:26px; color:var(--lila-dark); font-weight:900; letter-spacing:-1px; }
-        .trinity-container { display:flex; align-items:center; justify-content:space-between; margin:10px 0; }
-        .coffee-display { flex-grow:1; display:flex; flex-direction:column; align-items:center; justify-content:center; }
-        .coffee-icon-main { font-size:65px; color:var(--text); text-shadow:2px 2px 4px var(--shadow-dark), -2px -2px 4px var(--shadow-light); animation:steam 4s ease-in-out infinite; filter:opacity(0.9); }
-        @keyframes steam { 0%, 100% { transform:translateY(0) scale(1); filter:blur(0px); } 50% { transform:translateY(-8px) scale(1.02); filter:blur(1px); } }
-        .coffee-name { font-size:11px; font-weight:900; color:var(--lila-dark); letter-spacing:2px; margin-top:10px; text-transform:uppercase; }
-        .art-row { display:grid; grid-template-columns:1fr 1.1fr; gap:12px; align-items:center; }
-        .art-img { width:100%; aspect-ratio:1; border-radius:18px; background:url('https://upload.wikimedia.org/wikipedia/en/d/dd/The_Persistence_of_Memory.jpg') center/cover; box-shadow:4px 4px 10px var(--shadow-dark); }
-        .controls-row { display:flex; gap:10px; align-items:center; }
-        .note-input { flex-grow:1; border:none; padding:12px; border-radius:15px; outline:none; background:var(--bg); font-size:11px; color:var(--text); }
-        .cal-box { padding:15px; min-height:180px; }
-        .cal-nav { display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; font-weight:900; font-size:12px; color:var(--lila-dark); }
-        .grid-7 { display:grid; grid-template-columns:repeat(7, 1fr); gap:4px; text-align:center; font-size:9px; }
-        .cal-day { padding:6px 0; border-radius:8px; cursor:pointer; }
+        
+        /* Ajuste para m√≥viles: evitar scroll lateral y centrar contenido */
+        body { margin:0; padding:10px; background:#cfcfe2; font-family:system-ui, sans-serif; color:var(--text); display:flex; justify-content:center; min-height:100vh; box-sizing: border-box; overflow-x: hidden; }
+        
+        .app { 
+            width: 100%; 
+            max-width: 380px; 
+            background: var(--bg); 
+            border-radius: 35px; 
+            padding: 20px; 
+            box-sizing: border-box; 
+            display: flex; 
+            flex-direction: column; 
+            gap: 12px; 
+            box-shadow: 10px 10px 20px var(--shadow-dark), -8px -8px 20px var(--shadow-light);
+            margin-top: 5px; /* Peque√±o margen por si el texto del servidor aparece arriba */
+        }
+
+        /* Estilo Neum√≥rfico Adaptativo */
+        .neu-inset { background:var(--bg); border-radius:15px; box-shadow:inset 4px 4px 8px var(--shadow-dark), inset -4px -4px 8px var(--shadow-light); border:none; padding:10px; }
+        .neu-flat { background:var(--bg); border-radius:15px; border:none; box-shadow:4px 4px 10px var(--shadow-dark), -4px -4px 10px var(--shadow-light); cursor:pointer; color:var(--text); padding:12px; font-size: 11px; font-weight: bold; }
+        .neu-flat:active { box-shadow:inset 2px 2px 5px var(--shadow-dark), inset -2px -2px 5px var(--shadow-light); }
+
+        .header h1 { margin:0; font-size:22px; color:var(--lila-dark); font-weight:900; text-align:center; }
+        
+        /* Trinity y Display principal */
+        .trinity-container { display:flex; align-items:center; justify-content:space-between; margin:5px 0; }
+        .coffee-display { text-align:center; flex-grow:1; }
+        .coffee-icon-main { font-size:50px; animation:steam 4s ease-in-out infinite; }
+        @keyframes steam { 0%, 100% { transform:translateY(0); } 50% { transform:translateY(-5px); } }
+
+        /* Calendario Ajustado */
+        .grid-7 { display:grid; grid-template-columns:repeat(7, 1fr); gap:2px; text-align:center; font-size:10px; }
+        .cal-day { padding:8px 0; border-radius:5px; }
         .cal-day.has-data { color:var(--lila-dark); font-weight:900; text-decoration:underline; }
-        .cal-day.selected { border:1px solid var(--lila-dark); }
-        .overlay { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:var(--bg); z-index:100; flex-direction:column; padding:30px; box-sizing:border-box; }
-        .codex-item { padding:12px; margin-bottom:10px; display:flex; justify-content:space-between; align-items:center; }
-        .wrapped-item { display:flex; justify-content:space-between; padding:10px; border-bottom:1px solid var(--shadow-dark); font-weight:bold; font-size:11px; }
+        .cal-day.selected { background: var(--lila-soft); }
+
+        /* Overlays para m√≥viles */
+        .overlay { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:var(--bg); z-index:1000; flex-direction:column; padding:20px; box-sizing:border-box; overflow-y: auto; }
     </style>
 </head>
 <body>
     <div class="app">
-        <div class="header"><h1>Lavender</h1><button class="neu-flat" style="width:38px; height:38px; border-radius:50%;" onclick="toggleTheme()"></button></div>
-        <div class="art-row">
-            <div class="art-img"></div>
-            <div class="neu-inset" style="padding:10px; min-height:80px; display:flex; flex-direction:column; justify-content:center;">
-                <span id="quote" style="font-size:9px; font-style:italic;">"..."</span>
-                <small id="philosopher" style="color:var(--lila-dark); margin-top:5px; font-weight:bold; font-size:8px; text-align:right;"></small>
-            </div>
+        <div class="header">
+            <h1>Lavender</h1>
         </div>
-        <div class="trinity-container">
-            <button class="neu-flat" style="width:40px; height:40px; border-radius:50%;" onclick="prevT()">ã</button>
-            <div class="coffee-display"><div id="main-icon" class="coffee-icon-main"></div><div id="main-name" class="coffee-name">ESPRESSO</div></div>
-            <button class="neu-flat" style="width:40px; height:40px; border-radius:50%;" onclick="nextT()">õ</button>
-        </div>
-        <div style="text-align:center; font-weight:900; font-size:12px; color:var(--lila-dark);"><span id="date-label">Hoy</span>: <span id="count">0</span> rituales</div>
-        <div class="controls-row">
-            <button class="neu-flat" style="padding:12px; font-size:9px; font-weight:bold; width:55px;" onclick="undo()">UNDO</button>
-            <input type="text" id="note" class="neu-inset note-input" placeholder="Nota...">
-            <button class="neu-flat" style="padding:12px; font-size:10px; font-weight:bold; color:var(--lila-dark);" onclick="add()">REGISTRAR</button>
-        </div>
-        <div class="neu-inset cal-box">
-            <div class="cal-nav"><button class="neu-flat" style="padding:5px 10px;" onclick="changeMonth(-1)">ã</button><span id="month-name">Mes</span><button class="neu-flat" style="padding:5px 10px;" onclick="changeMonth(1)">õ</button></div>
-            <div id="calendar" class="grid-7"></div>
-            <div id="history-display" style="font-size:9px; margin-top:8px; border-top:1px dashed var(--shadow-dark); padding-top:5px; max-height:60px; overflow-y:auto; line-height:1.4;"></div>
-        </div>
-        <div style="display:grid; grid-template-columns:1fr 1fr; gap:15px;">
-            <button class="neu-flat" style="padding:12px; font-size:10px; font-weight:bold;" onclick="openOverlay('codex')">GRIMORIO</button>
-            <button class="neu-flat" style="padding:12px; font-size:10px; font-weight:bold;" onclick="openOverlay('wrapped')">WRAPPED</button>
-        </div>
-    </div>
 
-    <div id="codex" class="overlay">
-        <h2 style="text-align:center; color:var(--lila-dark)">Grimorio</h2>
-        <div class="neu-inset" style="padding:12px; margin-bottom:15px; display:flex; flex-direction:column; gap:8px;">
-            <div style="display:flex; gap:8px;"><input type="text" id="cust-e" class="neu-inset note-input" style="width:45px; text-align:center;" placeholder=""><input type="text" id="cust-n" class="neu-inset note-input" placeholder="Nombre"></div>
-            <input type="text" id="cust-r" class="neu-inset note-input" placeholder="Receta..."><button onclick="saveCustom()" class="neu-flat" style="padding:10px; font-weight:bold; color:var(--lila-dark);">CREAR</button>
+        <div class="neu-inset" style="min-height: 60px; display: flex; flex-direction: column; justify-content: center; text-align: center; padding: 10px;">
+            <span id="quote" style="font-size: 10px; font-style: italic;">"Cargando..."</span>
+            <small id="philosopher" style="color:var(--lila-dark); font-weight:bold; font-size:9px; margin-top:5px;"></small>
         </div>
-        <div id="codex-grid" style="overflow-y:auto; flex-grow:1;"></div>
-        <button onclick="closeOverlay('codex')" class="neu-flat" style="padding:15px; margin-top:10px; font-weight:bold;">CERRAR</button>
+
+        <div class="trinity-container">
+            <button class="neu-flat" style="width:40px; height:40px; border-radius:50%;" onclick="prevT()">‚Äπ</button>
+            <div class="coffee-display">
+                <div id="main-icon" class="coffee-icon-main">‚òï</div>
+                <div id="main-name" style="font-size:10px; font-weight:900; color:var(--lila-dark); margin-top:5px;">ESPRESSO</div>
+            </div>
+            <button class="neu-flat" style="width:40px; height:40px; border-radius:50%;" onclick="nextT()">‚Ä∫</button>
+        </div>
+
+        <div style="text-align:center; font-weight:900; font-size:11px; color:var(--lila-dark);">
+            <span id="count">0</span> rituales hoy
+        </div>
+
+        <input type="text" id="note" class="neu-inset" style="font-size:11px;" placeholder="Nota del ritual...">
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+            <button class="neu-flat" onclick="undo()">UNDO</button>
+            <button class="neu-flat" style="color:var(--lila-dark);" onclick="add()">REGISTRAR</button>
+        </div>
+
+        <div class="neu-inset" style="padding:10px;">
+            <div style="display:flex; justify-content:space-between; font-size:11px; font-weight:bold; margin-bottom:8px;">
+                <span id="month-name">Mes</span>
+                <div>
+                    <span onclick="changeMonth(-1)" style="cursor:pointer; margin-right:10px;">‚Äπ</span>
+                    <span onclick="changeMonth(1)" style="cursor:pointer;">‚Ä∫</span>
+                </div>
+            </div>
+            <div id="calendar" class="grid-7"></div>
+        </div>
+
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+            <button class="neu-flat" onclick="openOverlay('codex')">GRIMORIO</button>
+            <button class="neu-flat" onclick="openOverlay('wrapped')">WRAPPED</button>
+        </div>
     </div>
-    <div id="wrapped" class="overlay">
-        <h2 style="text-align:center; color:var(--lila-dark)">Wrapped</h2>
-        <div id="wrapped-list" class="neu-inset" style="padding:15px; margin-bottom:15px; flex-grow:1; overflow-y:auto;"></div>
-        <div id="wrapped-peak" class="neu-inset" style="padding:10px; text-align:center; margin-bottom:10px; font-size:11px; font-weight:bold;"></div>
-        <div id="wrapped-total" class="neu-inset" style="padding:20px; text-align:center;"></div>
-        <button onclick="closeOverlay('wrapped')" class="neu-flat" style="padding:15px; margin-top:10px;">VOLVER</button>
-    </div>
+    
 
     <script>
         const FRASES = { 
-            0: [{q:"La existencia es una distracciÛn.", p:"Kafka"}, {q:"Existir es una imperfecciÛn.", p:"Cioran"}, {q:"El vacÌo es libertad.", p:"Sartre"}, {q:"La inacciÛn es reflexiÛn.", p:"PlatÛn"}, {q:"Nacer es comenzar a morir.", p:"Heidegger"}, {q:"Solo sÈ que no sÈ nada.", p:"SÛcrates"}], 
-            1: [{q:"Pienso, luego existo.", p:"Descartes"}, {q:"Sapere Aude.", p:"Kant"}, {q:"La duda es el origen.", p:"AristÛteles"}, {q:"El hombre es medida.", p:"Prot·goras"}, {q:"Todo fluye.", p:"Her·clito"}, {q:"La razÛn es reina.", p:"Spinoza"}], 
-            2: [{q:"Somos lo que hacemos.", p:"AristÛteles"}, {q:"Amor Fati.", p:"Nietzsche"}, {q:"La vida es voluntad.", p:"Schopenhauer"}, {q:"El deber es ley.", p:"Kant"}, {q:"Persistencia es clave.", p:"DalÌ"}, {q:"El ahora es eterno.", p:"Hegel"}], 
-            3: [{q:"Parece imposible.", p:"Mandela"}, {q:"Libertad: responsabilidad.", p:"Sartre"}, {q:"Crea tu destino.", p:"Camus"}, {q:"El poder es acciÛn.", p:"Foucault"}, {q:"Vence al miedo.", p:"Marco Aurelio"}, {q:"El fuego purifica.", p:"ZenÛn"}], 
-            4: [{q:"Todo es real.", p:"Picasso"}, {q:"Realidad es lienzo.", p:"DalÌ"}, {q:"Supera al hombre.", p:"Nietzsche"}, {q:"Danza en el caos.", p:"Zarathustra"}, {q:"Eterno retorno.", p:"Nietzsche"}, {q:"La fuerza es vida.", p:"Her·clito"}] 
+            0: [{q:"La existencia es una distracci√≥n.", p:"Kafka"}, {q:"Existir es una imperfecci√≥n.", p:"Cioran"}, {q:"El vac√≠o es libertad.", p:"Sartre"}, {q:"La inacci√≥n es reflexi√≥n.", p:"Plat√≥n"}, {q:"Nacer es comenzar a morir.", p:"Heidegger"}, {q:"Solo s√© que no s√© nada.", p:"S√≥crates"}], 
+            1: [{q:"Pienso, luego existo.", p:"Descartes"}, {q:"Sapere Aude.", p:"Kant"}, {q:"La duda es el origen.", p:"Arist√≥teles"}, {q:"El hombre es medida.", p:"Prot√°goras"}, {q:"Todo fluye.", p:"Her√°clito"}, {q:"La raz√≥n es reina.", p:"Spinoza"}], 
+            2: [{q:"Somos lo que hacemos.", p:"Arist√≥teles"}, {q:"Amor Fati.", p:"Nietzsche"}, {q:"La vida es voluntad.", p:"Schopenhauer"}, {q:"El deber es ley.", p:"Kant"}, {q:"Persistencia es clave.", p:"Dal√≠"}, {q:"El ahora es eterno.", p:"Hegel"}], 
+            3: [{q:"Parece imposible.", p:"Mandela"}, {q:"Libertad: responsabilidad.", p:"Sartre"}, {q:"Crea tu destino.", p:"Camus"}, {q:"El poder es acci√≥n.", p:"Foucault"}, {q:"Vence al miedo.", p:"Marco Aurelio"}, {q:"El fuego purifica.", p:"Zen√≥n"}], 
+            4: [{q:"Todo es real.", p:"Picasso"}, {q:"Realidad es lienzo.", p:"Dal√≠"}, {q:"Supera al hombre.", p:"Nietzsche"}, {q:"Danza en el caos.", p:"Zarathustra"}, {q:"Eterno retorno.", p:"Nietzsche"}, {q:"La fuerza es vida.", p:"Her√°clito"}] 
         };
         const BASE_DB = {'r1':{n:'Espresso',e:''},'r2':{n:'Cortado',e:''},'r3':{n:'Americano',e:''},'r4':{n:'Cappuccino',e:''},'r5':{n:'Latte',e:''},'r6':{n:'Cold Brew',e:''},'r7':{n:'Moka',e:''}};
         
